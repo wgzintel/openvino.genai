@@ -52,6 +52,12 @@ set_target_properties(benchmark_genai PROPERTIES
     # Ensure out of box LC_RPATH on macOS with SIP
     INSTALL_RPATH_USE_LINK_PATH ON)
 
+add_executable(benchmark_ttft benchmark_ttft.cpp read_prompt_from_file.cpp)
+target_link_libraries(benchmark_ttft PRIVATE openvino::genai cxxopts::cxxopts)
+set_target_properties(benchmark_ttft PROPERTIES
+    # Ensure out of box LC_RPATH on macOS with SIP
+    INSTALL_RPATH_USE_LINK_PATH ON)
+
 install(TARGETS benchmark_genai
         RUNTIME DESTINATION samples_bin/
         COMPONENT samples_bin
