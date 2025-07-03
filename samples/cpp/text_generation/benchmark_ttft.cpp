@@ -18,6 +18,7 @@ int main(int argc, char* argv[]) try {
     ("d,device", "device", cxxopts::value<std::string>()->default_value("CPU"))
     ("df,disable_prefix", "Whether disable prefix", cxxopts::value<bool>()->default_value("false"))
     ("mb,max_num_batched_tokens", "max num batched tokens", cxxopts::value<size_t>()->default_value(std::to_string(256)))
+    ("cs,cache_size", "total size of KV cache in GB", cxxopts::value<size_t>()->default_value(std::to_string(0)))
     ("h,help", "Print usage");
 
     cxxopts::ParseResult result;
@@ -62,10 +63,13 @@ int main(int argc, char* argv[]) try {
 
     ov::genai::SchedulerConfig scheduler_config;
     scheduler_config.enable_prefix_caching = prefix_enable;
-    scheduler_config.max_num_batched_tokens = max_num_batched_tokens;n m
+    scheduler_config.max_num_batched_tokens = max_num_batched_tokens;
+    scheduler_config.cache_size = result["cache_size"].as<size_t>();
 
     std::cout << ov::get_openvino_version() << std::endl;
-    std::cout << "enable_prefix_caching:" << scheduler_config.enable_prefix_caching << ", max_num_batched_tokens:" << scheduler_config.max_num_batched_tokens << std::endl;
+    std::cout << "enable_prefix_caching:" << scheduler_config.enable_prefix_caching << 
+        ", max_num_batched_tokens:" << scheduler_config.max_num_batched_tokens << 
+        ", cache size:" << scheduler_config.cache_size << std::endl;
     ov::genai::LLMPipeline pipe(models_path, device, ov::genai::scheduler_config(scheduler_config));
 
     std::string prompt_1k = prompt;
