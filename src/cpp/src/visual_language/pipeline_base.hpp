@@ -6,8 +6,6 @@
 #include "openvino/genai/visual_language/pipeline.hpp"
 #include "utils.hpp"
 
-using namespace ov::genai;
-
 namespace ov::genai {
 class ov::genai::VLMPipeline::VLMPipelineBase {
     // Load pipeline time
